@@ -1,0 +1,89 @@
+CricketLive Ad Change Guide
+===========================
+
+এই project থেকে পুরনো builder branding/reference remove করা হয়েছে.
+
+1) Head scripts কোথায় আছে?
+-------------------------
+File: index.html
+
+এখানে 3টা script আছে:
+- Pop-Under (Adsterra)
+- Push Notification / OnClick (Monetag)
+- Google AdSense base script
+
+যদি future-এ Popunder বা Monetag change করতে চান,
+তাহলে index.html file খুলে old script URL replace করে new script URL বসাবেন.
+
+2) Top Banner ad কোথায় change করবেন?
+------------------------------------
+File: src/components/TopBannerAd.tsx
+
+এখানে change করার জিনিস:
+- key
+- format
+- height
+- width
+- invoke.js URL
+
+3) Native Banner ad কোথায় change করবেন?
+---------------------------------------
+File: src/components/NativeBannerAd.tsx
+
+এখানে change করার জিনিস:
+- container id
+- invoke.js URL
+
+4) Footer AdSense কোথায় change করবেন?
+-------------------------------------
+File: src/components/FooterAd.tsx
+
+এখানে change করার জিনিস:
+- data-ad-client
+- data-ad-slot
+
+IMPORTANT:
+- data-ad-client এ আপনার real Publisher ID দিন
+- data-ad-slot এ আপনার real Slot ID দিন
+- AdSense approved না হলে ad show নাও করতে পারে
+
+5) App layout-এ ad position কোথায় set করা আছে?
+-----------------------------------------------
+File: src/App.tsx
+
+Current order:
+- TopBannerAd
+- Navbar
+- HeroSection
+- NativeBannerAd
+- other sections
+- FooterAd
+- Footer
+
+যদি future-এ ad position change করতে চান,
+তাহলে App.tsx এ component order change করলেই হবে.
+
+6) Stream proxy setting
+-----------------------
+File: .env.local
+Variable: VITE_STREAM_PROXY_URL
+
+যদি আপনার নিজস্ব proxy/function URL থাকে, এখানে বসাবেন.
+না থাকলে empty রাখলেও project load হবে, কিন্তু কিছু stream source CORS issue দিতে পারে.
+
+7) Deploy করার আগে checklist
+-----------------------------
+- index.html এ scripts ঠিক আছে কিনা
+- FooterAd.tsx এ real AdSense ID/slot বসানো হয়েছে কিনা
+- TopBannerAd.tsx key ঠিক আছে কিনা
+- NativeBannerAd.tsx container/script ঠিক আছে কিনা
+- .env.local এ proxy URL লাগলে বসানো হয়েছে কিনা
+
+Quick summary
+-------------
+- Head ads: index.html
+- Top banner: src/components/TopBannerAd.tsx
+- Native banner: src/components/NativeBannerAd.tsx
+- Footer adsense: src/components/FooterAd.tsx
+- Ad positions: src/App.tsx
+- Stream proxy: .env.local
